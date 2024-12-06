@@ -43,10 +43,10 @@ public class SpaceShipController : MonoBehaviour
         // move forward
         // transform.position += -transform.forward * thrustSpeed * Time.deltaTime;
         
-        if (moveValueX > 0){
+        if (moveValueX < 0){
             animator.SetBool("turnR", true);
             animator.SetBool("turnL", false);
-        } else if (moveValueX < 0){
+        } else if (moveValueX > 0){
             animator.SetBool("turnL", true);
             animator.SetBool("turnR", false);
         } else {
@@ -66,7 +66,7 @@ public class SpaceShipController : MonoBehaviour
             animator.SetBool("down", false);
         }
 
-        transform.position += -transform.right * moveValueX * strafeThrust * Time.deltaTime;
+        transform.position += transform.right * moveValueX * strafeThrust * Time.deltaTime;
         transform.position += transform.up * moveValueY * upThrust * Time.deltaTime;
 
 
