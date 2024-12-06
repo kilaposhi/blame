@@ -5,26 +5,32 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+namespace UnityEngine.XR.Content.Interaction{
+
 public class SpaceShipController : MonoBehaviour
 {
 
-    public float yawTorque = 120;
-    public float pitchTorque = 120;
-    public float thrust = 5;
-    public float upThrust = 120;
-    public float strafeThrust = 120;
+    public XRSlider moveSpeedSlider;
+    public XRJoystick joystick;
+    public float moveSpeed = 2;
+    public float upThrust = 2;
+    public float strafeThrust = 3;
     public float responseTime;
-    public float thrustGlideReduction = 0.4f;
-    // public float roll;
 
-    private Vector2 moveValue;
+    private float moveValueX;
+    private float moveValueY;
     // private float thrust;
-    private float thrustInput;
-    private float glide;
+    private float moveInput;
     private Rigidbody rb;
+    private Animator animator;
 
     void Start(){
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();        
+
+        moveSpeedSlider.onValueChange.AddListener(SetMoveSpeed);
+        joystick.onValueChangeX.AddListener(SetMoveX);
+        joystick.onValueChangeY.AddListener(SetMoveY);
     }
 
     // Physics should be independent from  the framerate
@@ -36,49 +42,65 @@ public class SpaceShipController : MonoBehaviour
 
         // move forward
         // transform.position += -transform.forward * thrustSpeed * Time.deltaTime;
-        // more realist thrust for later
         
-        // log the thrust input
-        Debug.Log(thrustInput); // never 0 doesnt work
+        if (moveValueX > 0){
+            animator.SetBool("turnR", true);
+            animator.SetBool("turnL", false);
+        } else if (moveValueX < 0){
+            animator.SetBool("turnL", true);
+            animator.SetBool("turnR", false);
+        } else {
+            animator.SetBool("turnR", false);
+            animator.SetBool("turnL", false);
+        }
 
-        if (thrustInput > 0 || thrustInput < 0) {
-            float currentThrust = thrust; 
-            rb.AddRelativeForce(Vector3.forward * thrustInput * currentThrust * Time.deltaTime);
-            glide = thrust;
+        if (moveValueY > 0){
+            animator.SetBool("up", true);
+            animator.SetBool("down", false);
+        } else if (moveValueY < 0){
+            animator.SetBool("down", true);
+            animator.SetBool("up", false);
         }
         else {
-            rb.AddRelativeForce(Vector3.forward * glide  * Time.deltaTime);
-            glide *= thrustGlideReduction; 
+            animator.SetBool("up", false);
+            animator.SetBool("down", false);
         }
 
-        // inputs
-        float horizontalInput = moveValue.x;
-        float verticalInput = moveValue.y;
-
-
-        // // yaw, pitch, roll
-        // Yaw += horizontalInput * YawAmount * Time.deltaTime * 1/4;
-        // float pitch = Mathf.Lerp(0, 20, Mathf.Abs(verticalInput)) * Mathf.Sign(verticalInput);
-        // float roll = Mathf.Lerp(0, 30, Mathf.Abs(horizontalInput)) * -Mathf.Sign(horizontalInput);
-
-        // // apply rotation
-        // transform.localRotation = Quaternion.Euler(Vector3.up * Yaw + Vector3.right * pitch + Vector3.forward * roll);
-
-        // Pitch
-        rb.AddRelativeTorque(Vector3.right * Math.Clamp(verticalInput, -1f, 1f) * pitchTorque *Time.deltaTime);
-        // Yaw 
-        rb.AddRelativeTorque(Vector3.up * Math.Clamp(horizontalInput, -1f, 1f) * yawTorque *Time.deltaTime);
-
+        transform.position += -transform.right * moveValueX * strafeThrust * Time.deltaTime;
+        transform.position += transform.up * moveValueY * upThrust * Time.deltaTime;
 
 
     }
 
-    void OnMove(InputValue value){
-        moveValue = value.Get<Vector2>();
+    // void OnMove(InputValue value){
+    //     moveValue = value.Get<Vector2>();
+    // }
+
+    // void OnThrust(InputValue value){
+    //     moveInput = value.Get<float>();
+    //     Debug.Log("Thrust: " + moveInput);
+    // }
+
+        // void ConnectControlEvents(){
+        // }
+    void SetMoveSpeed(float sliderValue)
+    {
+        moveSpeed = sliderValue;
+        Debug.Log("Move Speed: " + moveSpeed);
     }
 
-    void OnThrust(InputValue value){
-        thrustInput = value.Get<float>();
+    void SetMoveX(float value)
+    {
+        moveValueX = value;
+        Debug.Log("Move X: " + moveValueX);
     }
+
+    void SetMoveY(float value)
+    {
+        moveValueY = value;
+        Debug.Log("Move Y: " + moveValueY);
+    }
+
+}
 
 }
