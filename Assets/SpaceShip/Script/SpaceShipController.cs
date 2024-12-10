@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-namespace UnityEngine.XR.Content.Interaction{
+using UnityEngine.XR.Content.Interaction;
 
 public class SpaceShipController : MonoBehaviour
 {
@@ -17,10 +16,8 @@ public class SpaceShipController : MonoBehaviour
     public float strafeThrust = 3;
     public float responseTime;
 
-    private float moveValueX;
-    private float moveValueY;
-    // private float thrust;
-    private float moveInput;
+    private float moveValueX = 0;
+    private float moveValueY = 0;
     private Rigidbody rb;
     private Animator animator;
 
@@ -28,9 +25,9 @@ public class SpaceShipController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();        
 
+        // joystick.onValueChangeX.AddListener(SetMoveX);
+        // joystick.onValueChangeY.AddListener(SetMoveY);
         moveSpeedSlider.onValueChange.AddListener(SetMoveSpeed);
-        joystick.onValueChangeX.AddListener(SetMoveX);
-        joystick.onValueChangeY.AddListener(SetMoveY);
     }
 
     // Physics should be independent from  the framerate
@@ -72,21 +69,11 @@ public class SpaceShipController : MonoBehaviour
 
     }
 
-    // void OnMove(InputValue value){
-    //     moveValue = value.Get<Vector2>();
-    // }
-
-    // void OnThrust(InputValue value){
-    //     moveInput = value.Get<float>();
-    //     Debug.Log("Thrust: " + moveInput);
-    // }
-
-        // void ConnectControlEvents(){
-        // }
-    void SetMoveSpeed(float sliderValue)
-    {
-        moveSpeed = sliderValue;
-        Debug.Log("Move Speed: " + moveSpeed);
+    void OnMove(InputValue value){
+        Vector2 moveValue = value.Get<Vector2>();
+        moveValueX = moveValue.x;
+        moveValueY = moveValue.y;
+        Debug.Log("Move: " + moveValue);
     }
 
     void SetMoveX(float value)
@@ -101,6 +88,13 @@ public class SpaceShipController : MonoBehaviour
         Debug.Log("Move Y: " + moveValueY);
     }
 
-}
+    void SetMoveSpeed(float speedInput)
+    {
+
+        Debug.Log("Move Speed input: " + speedInput);
+        moveSpeed = speedInput * 15;
+        SpeedManager.Instance.CurrentSpeed = moveSpeed; 
+        Debug.Log("Move Speed: " + moveSpeed);
+    }
 
 }
