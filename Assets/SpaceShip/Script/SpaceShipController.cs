@@ -11,8 +11,9 @@ public class SpaceShipController : MonoBehaviour
 
     public XRSlider moveSpeedSlider;
     public XRJoystick joystick;
-    public float moveSpeed = 2;
-    public float upThrust = 2;
+    public float moveSpeedMultiplicator = 25;
+    public float animationSpeedMultiplicator = 25;
+    public float upThrust = 4;
     public float strafeThrust = 3;
     public float responseTime;
 
@@ -20,13 +21,14 @@ public class SpaceShipController : MonoBehaviour
     private float moveValueY = 0;
     private Rigidbody rb;
     private Animator animator;
+    private float moveSpeed;
 
     void Start(){
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();        
 
-        // joystick.onValueChangeX.AddListener(SetMoveX);
-        // joystick.onValueChangeY.AddListener(SetMoveY);
+        joystick.onValueChangeX.AddListener(SetMoveX);
+        joystick.onValueChangeY.AddListener(SetMoveY);
         moveSpeedSlider.onValueChange.AddListener(SetMoveSpeed);
     }
 
@@ -37,35 +39,58 @@ public class SpaceShipController : MonoBehaviour
 
     void HandleMovement(){
 
-        // move forward
-        // transform.position += -transform.forward * thrustSpeed * Time.deltaTime;
-        
-        if (moveValueX < 0){
-            animator.SetBool("turnR", true);
-            animator.SetBool("turnL", false);
-        } else if (moveValueX > 0){
-            animator.SetBool("turnL", true);
-            animator.SetBool("turnR", false);
-        } else {
-            animator.SetBool("turnR", false);
-            animator.SetBool("turnL", false);
+        float animX = 0f;
+        float animY = 0f;
+
+
+        if (moveValueX != 0f){
+            animX += moveValueX * Time.deltaTime * animationSpeedMultiplicator ;
+        } else if (animX > 0.05f){
+            animX -= Time.deltaTime * 10;
+        }
+        else if (animX < -0.05f)
+        {
+            animX -= Time.deltaTime * -10;
+        }
+        else
+        {
+            animX = 0f;
         }
 
-        if (moveValueY > 0){
-            animator.SetBool("up", true);
-            animator.SetBool("down", false);
-        } else if (moveValueY < 0){
-            animator.SetBool("down", true);
-            animator.SetBool("up", false);
+
+        if (moveValueY != 0f){
+            animY += moveValueY * Time.deltaTime * animationSpeedMultiplicator;
         }
-        else {
-            animator.SetBool("up", false);
-            animator.SetBool("down", false);
+        else if (animY > 0.01f)
+        {
+            animY -= Time.deltaTime * 10;
         }
+        else if (animY < -0.01f)
+        {
+            animY -= Time.deltaTime * -10;
+        }
+        else
+        {
+            animY = 0f;
+        }
+ 
+        if (animX > 1f)
+        {
+            animX = 1f;
+        }
+        if (animX < -1) { animX = -1; }
+        if (animY > 1f) { animX = 1f; }
+        if (animY < -1f) { animX = -1f; }
+
 
         transform.position += transform.right * moveValueX * strafeThrust * Time.deltaTime;
         transform.position += transform.up * moveValueY * upThrust * Time.deltaTime;
 
+        // For the blender animation
+        Debug.Log("AnimX" + animX);
+        Debug.Log("AnimY" + animY);
+        animator.SetFloat("X", animX);
+        animator.SetFloat("Y", animY);
 
     }
 
@@ -79,20 +104,20 @@ public class SpaceShipController : MonoBehaviour
     void SetMoveX(float value)
     {
         moveValueX = value;
-        Debug.Log("Move X: " + moveValueX);
+        // right [0, -1]
     }
 
     void SetMoveY(float value)
     {
         moveValueY = value;
-        Debug.Log("Move Y: " + moveValueY);
+        // up [0, 1]
     }
 
     void SetMoveSpeed(float speedInput)
     {
 
         Debug.Log("Move Speed input: " + speedInput);
-        moveSpeed = speedInput * 15;
+        moveSpeed = speedInput * moveSpeedMultiplicator;
         SpeedManager.Instance.CurrentSpeed = moveSpeed; 
         Debug.Log("Move Speed: " + moveSpeed);
     }
