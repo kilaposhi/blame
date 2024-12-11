@@ -49,9 +49,8 @@ public class SpaceShipAnimation : MonoBehaviour
         // Keep the values between -1 and 1
         animX = Mathf.Clamp(animX, -1f, 1f);
         animY = Mathf.Clamp(animY, -1f, 1f);
-
-
-        Debug.Log($"Animation Variables - animX: {animX}, animY: {animY}");
+        // Debug.Log($"Animation Variables - animX: {animX}, animY: {animY}");
+        
         // For the blender animation
         animator.SetFloat("X", animX);
         animator.SetFloat("Y", animY);

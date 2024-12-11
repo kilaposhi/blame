@@ -11,8 +11,12 @@ public class SpaceShipController : MonoBehaviour
 
     public XRSlider moveSpeedSlider;
     public XRJoystick joystick;
-    public Collider shipModelCollider;
-    public float moveSpeedMultiplicator = 25;
+
+    public float moveSpeedMultiplier = 25f;
+    public float accelerationTime = 3f; // Time to reach final speed
+    public float decelerationTime = 4f; // Time to stop
+
+
     public float upThrust = 4;
     public float strafeThrust = 3;
     public float responseTime;
@@ -25,29 +29,37 @@ public class SpaceShipController : MonoBehaviour
 
 
 
-    private float moveValueX = 0;
-    private float moveValueY = 0;
+    private float moveValueX = 0f;
+    private float moveValueY = 0f;
     private Rigidbody rb;
-    private float moveSpeed;
+    private Collider shipModelCollider;
+    private float currentSpeed = 0f;
+    private float targetSpeed = 0f;
+    private float lerpFactor = 0f;
+
 
 
     void Start(){
         rb = GetComponent<Rigidbody>();
+        shipModelCollider = GetComponentInChildren<Collider>();
 
-        joystick.onValueChangeX.AddListener(SetMoveX);
+        joystick.onValueChangeX.AddListener(SetMoveX); 
         joystick.onValueChangeY.AddListener(SetMoveY);
         moveSpeedSlider.onValueChange.AddListener(SetMoveSpeed);
     }
 
     // Physics should be independent from  the framerate
-    void FixedUpdate() {
+    void Update() {
         HandleMovement();
+        HandleSpeed();
     }
 
     void HandleMovement(){
+        //Debug.Log("Movevalue X:" + moveValueX);
+        //Debug.Log("Movevalue Y :" + moveValueY);
 
         Vector3 newPosition = transform.position;
-        newPosition += transform.right * moveValueX * strafeThrust * Time.deltaTime;
+        newPosition += -transform.right * moveValueX * strafeThrust * Time.deltaTime;
         newPosition += transform.up * moveValueY * upThrust * Time.deltaTime;
 
 
@@ -64,10 +76,34 @@ public class SpaceShipController : MonoBehaviour
         
         // Stop the ship from going out of bounds
         float rotatedExtentX = GetRotatedExtentX();
+        Debug.Log("rotatedExtentX " + rotatedExtentX);
+        Debug.Log("Old X " + newPosition.x);
         newPosition.x = Mathf.Clamp(newPosition.x, leftWallX + rotatedExtentX, rightWallX - rotatedExtentX);
+        
+        Debug.Log("NEw X "+ newPosition.x);
 
         // Apply the new position
         transform.position = newPosition;
+    }
+
+    void HandleSpeed()
+    {
+        // Delay time to use
+        float smoothTime = targetSpeed > currentSpeed ? accelerationTime : decelerationTime;
+
+        lerpFactor += Time.deltaTime / smoothTime;
+        Debug.Log("LerpFactor"+ lerpFactor);
+        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, lerpFactor);
+
+        // Reset Lerp Factor when end of acceleration/decelaration
+        if (Mathf.Abs(currentSpeed - targetSpeed) < 0.01f)
+        {
+            currentSpeed = targetSpeed;
+            lerpFactor = 0;
+        }
+
+        Debug.Log("Move Speed: " + currentSpeed);
+        SpeedManager.Instance.CurrentSpeed = currentSpeed;
     }
 
     private float GetRotatedExtentX()
@@ -108,11 +144,7 @@ public class SpaceShipController : MonoBehaviour
 
     void SetMoveSpeed(float speedInput)
     {
-
-        Debug.Log("Move Speed input: " + speedInput);
-        moveSpeed = speedInput * moveSpeedMultiplicator;
-        SpeedManager.Instance.CurrentSpeed = moveSpeed; 
-        Debug.Log("Move Speed: " + moveSpeed);
+        targetSpeed = speedInput * moveSpeedMultiplier;       
     }
 
 }

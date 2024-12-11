@@ -1109,15 +1109,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeedSlider: {fileID: 521320355}
   joystick: {fileID: 1423127886}
-  shipModelCollider: {fileID: 801035818}
-  moveSpeedMultiplicator: 25
+  moveSpeedMultiplier: 25
+  accelerationTime: 3
+  decelerationTime: 4
   upThrust: 4
   strafeThrust: 3
   responseTime: 0
   topCeilingY: 200
   lowCeilingY: -200
-  leftWallX: 24.608
-  rightWallX: 64.208
+  leftWallX: -20
+  rightWallX: 20
 --- !u!4 &653631336
 Transform:
   m_ObjectHideFlags: 0
@@ -1127,7 +1128,7 @@ Transform:
   m_GameObject: {fileID: 653631333}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -15.72}
+  m_LocalPosition: {x: 0, y: 0, z: 103.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1475,7 +1476,7 @@ Transform:
   m_GameObject: {fileID: 801035812}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.3875231, y: 8.503297, z: -58}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.015, y: 0.015, z: 0.015}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -2440,7 +2441,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2216814198869864760, guid: f987e56f5c36e264e888555e47dec1bc, type: 3}
       propertyPath: m_MaxAngle
-      value: 20.6
+      value: 26.6
       objectReference: {fileID: 0}
     - target: {fileID: 2216814198869864760, guid: f987e56f5c36e264e888555e47dec1bc, type: 3}
       propertyPath: m_InteractionManager
