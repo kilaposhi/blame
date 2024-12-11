@@ -1047,6 +1047,93 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5879103145667308183, guid: dbc00c748b2740440822c7379c16565e, type: 3}
   m_PrefabInstance: {fileID: 577202003}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &653631333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 653631336}
+  - component: {fileID: 653631335}
+  - component: {fileID: 653631334}
+  m_Layer: 0
+  m_Name: SpaceShipController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &653631334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653631333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 1e97459d1145bc2429c41ff96ea266af, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: SpaceShip
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &653631335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653631333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e12e5efeea0ab43a28560bbc8c4ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeedSlider: {fileID: 521320355}
+  joystick: {fileID: 1423127886}
+  shipModelCollider: {fileID: 801035818}
+  moveSpeedMultiplicator: 25
+  upThrust: 4
+  strafeThrust: 3
+  responseTime: 0
+  topCeilingY: 200
+  lowCeilingY: -200
+  leftWallX: 24.608
+  rightWallX: 64.208
+--- !u!4 &653631336
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653631333}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -15.72}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 801035813}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &697418710
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1368,8 +1455,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 801035813}
-  - component: {fileID: 801035815}
-  - component: {fileID: 801035814}
+  - component: {fileID: 801035819}
   - component: {fileID: 801035816}
   - component: {fileID: 801035817}
   - component: {fileID: 801035818}
@@ -1388,7 +1474,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 801035812}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 0.3875231, y: 8.503297, z: -58}
   m_LocalScale: {x: 0.015, y: 0.015, z: 0.015}
   m_ConstrainProportionsScale: 1
@@ -1397,57 +1483,8 @@ Transform:
   - {fileID: 1723085117}
   - {fileID: 1070487860}
   - {fileID: 302102751}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 653631336}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &801035814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 801035812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35e12e5efeea0ab43a28560bbc8c4ca2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeedSlider: {fileID: 521320355}
-  joystick: {fileID: 1423127886}
-  moveSpeedMultiplicator: 25
-  animationSpeedMultiplicator: 25
-  upThrust: 5
-  strafeThrust: 5
-  responseTime: 0
---- !u!114 &801035815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 801035812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 1e97459d1145bc2429c41ff96ea266af, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: KeyboardMouse
-  m_DefaultActionMap: SpaceShip
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!54 &801035816
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1517,6 +1554,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 15.714881, y: 14.447339, z: 59.628315}
   m_Center: {x: 0.041761253, y: 6.788222, z: -7.6629653}
+--- !u!114 &801035819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801035812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b02db8a61b7b61440ad48dc434259a3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joystick: {fileID: 1423127886}
+  animationSpeedMultiplicator: 1
 --- !u!1 &809676808
 GameObject:
   m_ObjectHideFlags: 0
@@ -1829,10 +1880,10 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 2.964269, y: 0.99999976, z: 2.289689}
-  m_Center: {x: -0.37486857, y: 0, z: 0.37100706}
+  m_Size: {x: 2.2392735, y: 0.99999976, z: 2.289689}
+  m_Center: {x: -0.012371511, y: 0, z: 0.37100706}
 --- !u!1 &1103929353 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1451206656157691855, guid: d69d1b462f51a2c4a8358ce041c996a7, type: 3}
@@ -3805,7 +3856,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1787370839}
   - {fileID: 809676810}
-  - {fileID: 801035813}
+  - {fileID: 653631336}
   - {fileID: 1831533602}
   - {fileID: 1668370898}
   - {fileID: 1876262562}
