@@ -35,7 +35,7 @@ public class SpaceShipController : MonoBehaviour
     private Collider shipModelCollider;
     private float currentSpeed = 0f;
     private float targetSpeed = 0f;
-    private float lerpFactor = 0f;
+    private float MoveFactor = 0f;
 
 
 
@@ -76,12 +76,8 @@ public class SpaceShipController : MonoBehaviour
         
         // Stop the ship from going out of bounds
         float rotatedExtentX = GetRotatedExtentX();
-        Debug.Log("rotatedExtentX " + rotatedExtentX);
-        Debug.Log("Old X " + newPosition.x);
         newPosition.x = Mathf.Clamp(newPosition.x, leftWallX + rotatedExtentX, rightWallX - rotatedExtentX);
         
-        Debug.Log("NEw X "+ newPosition.x);
-
         // Apply the new position
         transform.position = newPosition;
     }
@@ -91,18 +87,18 @@ public class SpaceShipController : MonoBehaviour
         // Delay time to use
         float smoothTime = targetSpeed > currentSpeed ? accelerationTime : decelerationTime;
 
-        lerpFactor += Time.deltaTime / smoothTime;
-        Debug.Log("LerpFactor"+ lerpFactor);
-        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, lerpFactor);
+        MoveFactor += Time.deltaTime / smoothTime;
+        // Debug.Log("LerpFactor"+ MoveFactor);
+        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, MoveFactor);
 
         // Reset Lerp Factor when end of acceleration/decelaration
         if (Mathf.Abs(currentSpeed - targetSpeed) < 0.01f)
         {
             currentSpeed = targetSpeed;
-            lerpFactor = 0;
+            MoveFactor = 0;
         }
 
-        Debug.Log("Move Speed: " + currentSpeed);
+        // Debug.Log("Move Speed: " + currentSpeed);
         SpeedManager.Instance.CurrentSpeed = currentSpeed;
     }
 
