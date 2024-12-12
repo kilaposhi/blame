@@ -19,7 +19,6 @@ public class SpaceShipController : MonoBehaviour
 
     public float upThrust = 4;
     public float strafeThrust = 3;
-    public float responseTime;
 
 
     public float topCeilingY = 200f;
@@ -48,8 +47,7 @@ public class SpaceShipController : MonoBehaviour
         moveSpeedSlider.onValueChange.AddListener(SetMoveSpeed);
     }
 
-    // Physics should be independent from  the framerate
-    void Update() {
+    void FixedUpdate() {
         HandleMovement();
         HandleSpeed();
     }
@@ -57,6 +55,11 @@ public class SpaceShipController : MonoBehaviour
     void HandleMovement(){
         //Debug.Log("Movevalue X:" + moveValueX);
         //Debug.Log("Movevalue Y :" + moveValueY);
+
+        if (currentSpeed == 0)
+        {
+            return;
+        }
 
         Vector3 newPosition = transform.position;
         newPosition += -transform.right * moveValueX * strafeThrust * Time.deltaTime;
