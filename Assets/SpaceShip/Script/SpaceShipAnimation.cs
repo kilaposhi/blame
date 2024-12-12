@@ -51,22 +51,15 @@ public class SpaceShipAnimation : MonoBehaviour
         animY = Mathf.Clamp(animY, -1f, 1f);
         // Debug.Log($"Animation Variables - animX: {animX}, animY: {animY}");
         
-        // For the blender animation
+        // For the blender animator
         animator.SetFloat("X", animX);
         animator.SetFloat("Y", animY);
-    }
-
-    void OnMove(InputValue value){
-        Vector2 moveValue = value.Get<Vector2>();
-        moveValueX = moveValue.x;
-        moveValueY = moveValue.y;
-        // Debug.Log("Move: " + moveValue);
     }
 
     void SetMoveX(float value)
     {
         moveValueX = value;
-        // right [0, -1]
+        // right [0, -1] left [0, 1]
     }
 
     void SetMoveY(float value)

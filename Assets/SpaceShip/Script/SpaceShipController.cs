@@ -17,29 +17,27 @@ public class SpaceShipController : MonoBehaviour
     public float decelerationTime = 4f; // Time to stop
 
 
-    public float upThrust = 4;
-    public float strafeThrust = 3;
+    public float verticalSpeedMultiplier = 4f;
+    public float horizontalSpeedMultiplier = 3f;
 
 
     public float topCeilingY = 200f;
     public float lowCeilingY = -200f; 
-    public float leftWallX = 24.608f;
-    public float rightWallX = 64.208f;
+    public float leftWallX = -20f;
+    public float rightWallX = 20f;
 
 
 
     private float moveValueX = 0f;
     private float moveValueY = 0f;
-    private Rigidbody rb;
     private Collider shipModelCollider;
     private float currentSpeed = 0f;
     private float targetSpeed = 0f;
-    private float MoveFactor = 0f;
+    private float moveFactor = 0f;
 
 
 
     void Start(){
-        rb = GetComponent<Rigidbody>();
         shipModelCollider = GetComponentInChildren<Collider>();
 
         joystick.onValueChangeX.AddListener(SetMoveX); 
@@ -62,8 +60,9 @@ public class SpaceShipController : MonoBehaviour
         }
 
         Vector3 newPosition = transform.position;
-        newPosition += -transform.right * moveValueX * strafeThrust * Time.deltaTime;
-        newPosition += transform.up * moveValueY * upThrust * Time.deltaTime;
+        // Move the ship
+        newPosition += -transform.right * moveValueX * horizontalSpeedMultiplier * Time.deltaTime;
+        newPosition += transform.up * moveValueY * verticalSpeedMultiplier * Time.deltaTime;
 
 
         // Under the LOW ceiling we teleport the player to: just under the TOP ceiling
@@ -87,24 +86,30 @@ public class SpaceShipController : MonoBehaviour
 
     void HandleSpeed()
     {
+        if (currentSpeed == targetSpeed)
+        {
+            return;
+        }
+
         // Delay time to use
         float smoothTime = targetSpeed > currentSpeed ? accelerationTime : decelerationTime;
 
-        MoveFactor += Time.deltaTime / smoothTime;
+        moveFactor += Time.deltaTime / smoothTime;
         // Debug.Log("LerpFactor"+ MoveFactor);
-        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, MoveFactor);
+        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, moveFactor);
 
         // Reset Lerp Factor when end of acceleration/decelaration
         if (Mathf.Abs(currentSpeed - targetSpeed) < 0.01f)
         {
             currentSpeed = targetSpeed;
-            MoveFactor = 0;
+            moveFactor = 0;
         }
 
         // Debug.Log("Move Speed: " + currentSpeed);
         SpeedManager.Instance.CurrentSpeed = currentSpeed;
     }
 
+    // Get the max x position of the ship when rotated
     private float GetRotatedExtentX()
     {
         // Get the bounds of the collider in world space
@@ -122,6 +127,7 @@ public class SpaceShipController : MonoBehaviour
         return Mathf.Max(Mathf.Abs(localLeftCorner.x), Mathf.Abs(localRightCorner.x));
     }
     
+    // To test movement
     void OnMove(InputValue value){
         Vector2 moveValue = value.Get<Vector2>();
         moveValueX = moveValue.x;
