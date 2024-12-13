@@ -50,6 +50,11 @@ public class SpaceShipController : MonoBehaviour
         HandleSpeed();
     }
 
+    // For the Animation controller
+    public bool IsShipStill()
+    {
+        return currentSpeed == 0f;
+    }
     void HandleMovement(){
         //Debug.Log("Movevalue X:" + moveValueX);
         //Debug.Log("Movevalue Y :" + moveValueY);
