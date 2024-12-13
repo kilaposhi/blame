@@ -17,7 +17,7 @@ public class MasterGenerator : MonoBehaviour
     private Generator gen4;
     private Generator gen5;
 
-    private BoxCollider collider; // pour spawner les obstacles à différentes coordonnées
+    private BoxCollider my_collider; // pour spawner les obstacles à différentes coordonnées
 
     //public float spawn_interval = 3f ; 
     private float timer = 3f; 
@@ -30,13 +30,13 @@ public class MasterGenerator : MonoBehaviour
         gen4 = generator_object4.GetComponent<Generator>();
         gen5 = generator_object5.GetComponent<Generator>();
 
-        collider = generator_object1.GetComponent<BoxCollider>();
+        my_collider = generator_object1.GetComponent<BoxCollider>();
 
     }
     void Update()
     {
-        Vector3 colliderMin = collider.bounds.min;
-        Vector3 colliderMax = collider.bounds.max;
+        Vector3 colliderMin = my_collider.bounds.min;
+        Vector3 colliderMax = my_collider.bounds.max;
 
         if(timer <= 0)
         {
