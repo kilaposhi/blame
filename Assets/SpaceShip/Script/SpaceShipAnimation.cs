@@ -8,6 +8,7 @@ public class SpaceShipAnimation : MonoBehaviour
 {
 
     public XRJoystick joystick;
+
     public float animationSpeedMultiplicator = 1;
 
     private float moveValueX = 0;
@@ -15,11 +16,14 @@ public class SpaceShipAnimation : MonoBehaviour
     private Animator animator;
     private float animX = 0f;
     private float animY = 0f;
+    private SpaceShipController spaceShipController;
 
     void Start()
     {
-        animator = GetComponent<Animator>();           
-        
+        animator = GetComponent<Animator>();
+        spaceShipController = GetComponentInParent<SpaceShipController>();
+
+
         joystick.onValueChangeX.AddListener(SetMoveX);
         joystick.onValueChangeY.AddListener(SetMoveY);
         
@@ -28,6 +32,10 @@ public class SpaceShipAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (spaceShipController.IsShipStill())
+        {
+            return;
+        }
         
         if (moveValueX != 0f){
              animX = Mathf.Lerp(animX, moveValueX, animationSpeedMultiplicator * Time.deltaTime);

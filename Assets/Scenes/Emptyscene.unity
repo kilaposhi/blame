@@ -1109,12 +1109,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeedSlider: {fileID: 521320355}
   joystick: {fileID: 1423127886}
-  moveSpeedMultiplier: 25
-  accelerationTime: 3
-  decelerationTime: 4
-  upThrust: 4
-  strafeThrust: 3
-  responseTime: 0
+  moveSpeedMultiplier: 40
+  accelerationTime: 6
+  decelerationTime: 7
+  verticalSpeedMultiplier: 7
+  horizontalSpeedMultiplier: 4
   topCeilingY: 200
   lowCeilingY: -200
   leftWallX: -20
