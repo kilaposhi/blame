@@ -9,11 +9,13 @@ public class SpaceShipAnimation : MonoBehaviour
 
     public XRJoystick joystick;
 
-    public float animationSpeedMultiplicator = 1;
+    public float animationSpeedMultiplicator = 0.4f;
 
+    // Input values [-1, 1]
     private float moveValueX = 0;
     private float moveValueY = 0;
     private Animator animator;
+    // Animator values for the blender [-1, 1]
     private float animX = 0f;
     private float animY = 0f;
     private SpaceShipController spaceShipController;
@@ -32,22 +34,24 @@ public class SpaceShipAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // We do not allow movement if the ship isn't started
         if (spaceShipController.IsShipStill())
         {
             return;
         }
-        
+
+        // When the ship is moving we update smoothly animX towards the moveValue which update the animation
         if (moveValueX != 0f){
-             animX = Mathf.Lerp(animX, moveValueX, animationSpeedMultiplicator * Time.deltaTime);
+             animX = Mathf.MoveTowards(animX, moveValueX, animationSpeedMultiplicator * Time.deltaTime);
         }
         else
         {
-            animX = Mathf.MoveTowards(animX, 0f, Time.deltaTime);
+            animX = Mathf.MoveTowards(animX, 0f, Time.deltaTime); // Go towards idle
         }
 
 
         if (moveValueY != 0f){
-            animY = Mathf.Lerp(animY, moveValueY, animationSpeedMultiplicator * Time.deltaTime);
+            animY = Mathf.MoveTowards(animY, moveValueY, animationSpeedMultiplicator * Time.deltaTime);
         }
         else
         {
@@ -59,7 +63,7 @@ public class SpaceShipAnimation : MonoBehaviour
         animY = Mathf.Clamp(animY, -1f, 1f);
         // Debug.Log($"Animation Variables - animX: {animX}, animY: {animY}");
         
-        // For the blender animator
+        // Set the anim coordinates in the blender animator
         animator.SetFloat("X", animX);
         animator.SetFloat("Y", animY);
     }
@@ -73,6 +77,6 @@ public class SpaceShipAnimation : MonoBehaviour
     void SetMoveY(float value)
     {
         moveValueY = value;
-        // up [0, 1]
+        // up [0, 1] down [0, -1]
     }
 }

@@ -1109,19 +1109,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeedSlider: {fileID: 521320355}
   joystick: {fileID: 1423127886}
-<<<<<<< HEAD
-  moveSpeedMultiplier: 25
-  accelerationTime: 3
-  decelerationTime: 4
-  verticalSpeedMultiplier: 4
-  horizontalSpeedMultiplier: 3
-=======
-  moveSpeedMultiplier: 40
-  accelerationTime: 6
-  decelerationTime: 7
+  moveSpeedMultiplier: 70
+  accelerationTime: 8
+  decelerationTime: 9
   verticalSpeedMultiplier: 7
-  horizontalSpeedMultiplier: 4
->>>>>>> 6bb02bf4b35eb8a645030cb33ddb0b9cb7df47da
+  horizontalSpeedMultiplier: 7
   topCeilingY: 200
   lowCeilingY: -200
   leftWallX: -20
@@ -1575,7 +1567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 1423127886}
-  animationSpeedMultiplicator: 1
+  animationSpeedMultiplicator: 0.4
 --- !u!1 &809676808
 GameObject:
   m_ObjectHideFlags: 0
