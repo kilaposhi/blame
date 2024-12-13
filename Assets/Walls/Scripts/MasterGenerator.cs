@@ -38,7 +38,7 @@ public class MasterGenerator : MonoBehaviour
         Vector3 colliderMin = my_collider.bounds.min;
         Vector3 colliderMax = my_collider.bounds.max;
 
-        if(timer <= 0)
+        if(timer <= 0 && SpeedManager.Instance.CurrentSpeed > 0)
         {
             timer = Random.Range(0.1f, 0.4f);//spawn_interval ; 
             Vector3 new_coords = new Vector3(Random.Range(colliderMin.x, colliderMax.x), Random.Range(colliderMin.y, colliderMax.y), generator_object1.transform.position.z); 

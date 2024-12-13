@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BasicCameraControls : MonoBehaviour
 {
+    // des contrôles de caméra de bases pour tester les mécaniques de téléportation 
     public float moveSpeed = 50f; // Speed of the camera movement up and down
     public float speedIncrease = 15f ; // Acceleration when hitting space
     public float slowThreshold = 5f ;

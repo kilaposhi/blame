@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class SpeedManager : MonoBehaviour
 {
+    // pattern de singleton pour que la vitesse du joueur soit accessible à tout les objets dans la scène
     public static SpeedManager Instance { get; set; }
 
     public float CurrentSpeed = 0f;
