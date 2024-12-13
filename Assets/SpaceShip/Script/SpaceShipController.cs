@@ -12,13 +12,13 @@ public class SpaceShipController : MonoBehaviour
     public XRSlider moveSpeedSlider;
     public XRJoystick joystick;
 
-    public float moveSpeedMultiplier = 25f;
-    public float accelerationTime = 3f; // Time to reach final speed
-    public float decelerationTime = 4f; // Time to stop
+    public float moveSpeedMultiplier = 70f;
+    public float accelerationTime = 8f;
+    public float decelerationTime = 11f;
 
 
-    public float verticalSpeedMultiplier = 4f;
-    public float horizontalSpeedMultiplier = 3f;
+    public float verticalSpeedMultiplier = 7f;
+    public float horizontalSpeedMultiplier = 7f;
 
 
     public float topCeilingY = 200f;
@@ -99,8 +99,8 @@ public class SpaceShipController : MonoBehaviour
         // Delay time to use
         float smoothTime = targetSpeed > currentSpeed ? accelerationTime : decelerationTime;
 
+        // To make the ship accelarate/decelerate more and more
         moveFactor += Time.deltaTime / smoothTime;
-        // Debug.Log("LerpFactor"+ MoveFactor);
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, moveFactor);
 
         // Reset Lerp Factor when end of acceleration/decelaration
@@ -132,12 +132,11 @@ public class SpaceShipController : MonoBehaviour
         return Mathf.Max(Mathf.Abs(localLeftCorner.x), Mathf.Abs(localRightCorner.x));
     }
     
-    // To test movement
+    // To test movement with Keyboard
     void OnMove(InputValue value){
         Vector2 moveValue = value.Get<Vector2>();
         moveValueX = moveValue.x;
         moveValueY = moveValue.y;
-        // Debug.Log("Move: " + moveValue);
     }
 
     void SetMoveX(float value)
@@ -152,7 +151,7 @@ public class SpaceShipController : MonoBehaviour
         // up [0, 1]
     }
 
-    void SetMoveSpeed(float speedInput)
+    void SetMoveSpeed(float speedInput) // speedInput [0, 1]
     {
         targetSpeed = speedInput * moveSpeedMultiplier;       
     }
