@@ -17,8 +17,8 @@ public class SpaceShipController : MonoBehaviour
     public float decelerationTime = 11f;
 
 
-    public float verticalSpeedMultiplier = 7f;
-    public float horizontalSpeedMultiplier = 7f;
+    public float verticalSpeedMultiplier = 13f;
+    public float horizontalSpeedMultiplier = 8f;
 
 
     public float topCeilingY = 200f;

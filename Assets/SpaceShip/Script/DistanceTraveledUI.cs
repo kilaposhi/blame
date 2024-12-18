@@ -22,7 +22,8 @@ public class DistanceTraveledUI : MonoBehaviour {
 
 		if (currentDistanceTraveled != distanceTraveled) // Need to update the 3D UI for Life Remaining
 		{
-			simpleHelveticaScript.Text = distanceTraveled + "%";
+			simpleHelveticaScript.Text = distanceTraveled + " m";
+			simpleHelveticaScript.SpaceWidth = 350; // To avoid the "m" to cross the distance
 			simpleHelveticaScript.GenerateText(); // Generate the 3D text
 			currentDistanceTraveled = distanceTraveled;
 		}
