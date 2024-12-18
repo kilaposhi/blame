@@ -13,24 +13,20 @@ public class Controller : MonoBehaviour
     private Renderer rend2;
     private float scaleFactor;
     private float textureOffsetX = 0f;
-    // Start is called before the first frame update
+
     void Start()
     {
+        // on récupère les Renderer des murs pour pouvoir mettre les textures à jour
         rend1 = wall1.GetComponent<Renderer>();
         rend2 = wall2.GetComponent<Renderer>();
+
+        // on utilise un facteur basé sur la taille du mur pour que les pixels de la texture se déplace à la même vitesse que SpeedManager
         scaleFactor = wall1.transform.localScale.z / rend1.material.mainTextureScale.x ;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // float offset = Time.time * speed;
-        // rend.material.SetTextureOffset("_MainTex", new Vector2(offset, 0));
-
-        //Vector2 textureOffset = new(Time.deltaTime * SpeedManager.Instance.CurrentSpeed/scaleFactor, 0);
-        //rend1.material.mainTextureOffset = textureOffset;
-        //rend2.material.mainTextureOffset = textureOffset;
-
+        // on déplace la texture des murs vers le joueur pour donner une impression de mouvement
         textureOffsetX += SpeedManager.Instance.CurrentSpeed/scaleFactor * Time.deltaTime;
         Vector2 offset = new Vector2(textureOffsetX, 0);
         rend1.material.mainTextureOffset = offset;
