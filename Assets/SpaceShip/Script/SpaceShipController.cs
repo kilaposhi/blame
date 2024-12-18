@@ -34,15 +34,19 @@ public class SpaceShipController : MonoBehaviour
     private float currentSpeed = 0f;
     private float targetSpeed = 0f;
     private float moveFactor = 0f;
+    private AudioSource audioSource;
+    private Rigidbody rb;
 
 
 
     void Start(){
         shipModelCollider = GetComponentInChildren<Collider>();
+        rb = GetComponentInChildren<Rigidbody>();
 
         joystick.onValueChangeX.AddListener(SetMoveX); 
         joystick.onValueChangeY.AddListener(SetMoveY);
         moveSpeedSlider.onValueChange.AddListener(SetMoveSpeed);
+        audioSource = GetComponent<AudioSource>();
     }
 
     void FixedUpdate() {
@@ -56,13 +60,10 @@ public class SpaceShipController : MonoBehaviour
         return currentSpeed == 0f;
     }
     void HandleMovement(){
-        //Debug.Log("Movevalue X:" + moveValueX);
-        //Debug.Log("Movevalue Y :" + moveValueY);
-
-        if (currentSpeed == 0)
-        {
-            return;
-        }
+        // if (currentSpeed == 0)
+        // {
+        //     return;
+        // }
 
         Vector3 newPosition = transform.position;
         // Move the ship
@@ -87,6 +88,7 @@ public class SpaceShipController : MonoBehaviour
         
         // Apply the new position
         transform.position = newPosition;
+        // rb.MovePosition(newPosition);
     }
 
     void HandleSpeed()
@@ -97,7 +99,16 @@ public class SpaceShipController : MonoBehaviour
         }
 
         // Delay time to use
-        float smoothTime = targetSpeed > currentSpeed ? accelerationTime : decelerationTime;
+        float smoothTime;
+        if (targetSpeed > currentSpeed)
+        {
+            smoothTime = accelerationTime;
+            audioSource.Play(); // Play the Acceleration Sound
+        }
+        else
+        {
+            smoothTime = decelerationTime;
+        }
 
         // To make the ship accelarate/decelerate more and more
         moveFactor += Time.deltaTime / smoothTime;
@@ -113,6 +124,8 @@ public class SpaceShipController : MonoBehaviour
         // Debug.Log("Move Speed: " + currentSpeed);
         SpeedManager.Instance.CurrentSpeed = currentSpeed;
     }
+
+
 
     // Get the max x position of the ship when rotated
     private float GetRotatedExtentX()
