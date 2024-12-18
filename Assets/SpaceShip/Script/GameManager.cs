@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
     private int spaceshipLife = 100;
     private float distanceTraveled = 0;
 
@@ -23,7 +22,7 @@ public class GameManager : MonoBehaviour
         return spaceshipLife;
     }
 
-    public int getDistanceTraveled()
+    public int GetDistanceTraveled()
     {
         return (int)distanceTraveled;
     }
