@@ -7,9 +7,10 @@ public class SpaceShipCollision : MonoBehaviour
     public GameManager gameManager;
     public float collisionCooldown = 3.0f; // Cooldown time in seconds
     private bool canTakeDamage = true; 
+    private SpaceShipController spaceShipController;
     void Start()
     {
-        
+        spaceShipController = GetComponentInParent<SpaceShipController>();
     }
 
     // void OnCollisionEnter(Collision collision)
@@ -28,7 +29,8 @@ public class SpaceShipCollision : MonoBehaviour
         gameManager.LoseSpaceshipLife(); // Reduce life
         Debug.Log($"Ship hit! Remaining life: {gameManager.GetSpaceshipLife()}");
 
-        // Add logic for visual feedback (e.g., flashing red)
+        // Damage feedback
+        spaceShipController.StopShip();
 
         // Start cooldown before the ship can take damage again
         Invoke(nameof(ResetDamageCooldown), collisionCooldown);

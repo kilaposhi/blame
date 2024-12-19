@@ -32,21 +32,25 @@ public class SpaceShipController : MonoBehaviour
     private float moveValueY = 0f;
     private Collider shipModelCollider;
     private float currentSpeed = 0f;
-    private float targetSpeed = 0f;
+    // private float targetSpeed = 0f;
+    public float targetSpeed = 0f;
     private float moveFactor = 0f;
-    private AudioSource audioSource;
-    private Rigidbody rb;
+    public GameObject audioPlayerShip; // GameObject to get the AudioPlayer component
+    private AudioPlayer audioPlayer; // Manage ship sounds
+    private Animator animator;
+    private bool hasTriggeredShake = false;
 
 
 
     void Start(){
         shipModelCollider = GetComponentInChildren<Collider>();
-        rb = GetComponentInChildren<Rigidbody>();
+        animator = GetComponentInChildren<Animator>();
+
+        audioPlayer = audioPlayerShip.GetComponent<AudioPlayer>();
 
         joystick.onValueChangeX.AddListener(SetMoveX); 
         joystick.onValueChangeY.AddListener(SetMoveY);
         moveSpeedSlider.onValueChange.AddListener(SetMoveSpeed);
-        audioSource = GetComponent<AudioSource>();
     }
 
     void FixedUpdate() {
@@ -59,6 +63,14 @@ public class SpaceShipController : MonoBehaviour
     {
         return currentSpeed == 0f;
     }
+
+    public void StopShip()
+    {
+        currentSpeed = 0f;  // Stop the ship, before it starts moving again towards the target speed
+        animator.SetBool("IsMoving", false); // To trigger shaking animation when starting again
+        hasTriggeredShake = false;
+    }
+
     void HandleMovement(){
         // if (currentSpeed == 0)
         // {
@@ -93,17 +105,33 @@ public class SpaceShipController : MonoBehaviour
 
     void HandleSpeed()
     {
-        if (currentSpeed == targetSpeed)
+
+        if (currentSpeed != 0 && !hasTriggeredShake) // When the ship start moving
+        {
+            animator.SetBool("IsMoving", true);
+            hasTriggeredShake = true;
+            audioPlayer.PlayAcceleration(); // Play the acceleration sound
+            // audioPlayer.PlayShipMoving(); // Play the ship moving loop sound
+        }
+        
+        if (currentSpeed == 0 && hasTriggeredShake) // When the ship stop moving
+        {
+            animator.SetBool("IsMoving", false);
+            hasTriggeredShake = false;
+            audioPlayer.StopShipMoving(); // Stop the ship moving loop sound
+        }
+
+        if (currentSpeed == targetSpeed) // Avoid to update the speed if it's already the target speed
         {
             return;
         }
+
 
         // Delay time to use
         float smoothTime;
         if (targetSpeed > currentSpeed)
         {
             smoothTime = accelerationTime;
-            audioSource.Play(); // Play the Acceleration Sound
         }
         else
         {

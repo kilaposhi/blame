@@ -42,7 +42,7 @@ public class SpaceShipAnimation : MonoBehaviour
 
         // When the ship is moving we update smoothly animX towards the moveValue which update the animation
         if (moveValueX != 0f){
-             animX = Mathf.MoveTowards(animX, moveValueX, animationSpeedMultiplicator * Time.deltaTime);
+             animX = Mathf.Lerp(animX, moveValueX, animationSpeedMultiplicator * Time.deltaTime);
         }
         else
         {
@@ -51,7 +51,7 @@ public class SpaceShipAnimation : MonoBehaviour
 
 
         if (moveValueY != 0f){
-            animY = Mathf.MoveTowards(animY, moveValueY, animationSpeedMultiplicator * Time.deltaTime);
+            animY = Mathf.Lerp(animY, moveValueY, animationSpeedMultiplicator * Time.deltaTime);
         }
         else
         {
@@ -78,5 +78,12 @@ public class SpaceShipAnimation : MonoBehaviour
     {
         moveValueY = value;
         // up [0, 1] down [0, -1]
+    }
+
+    // To debug the animation values
+    void OnMove(InputValue value){
+        Vector2 moveValue = value.Get<Vector2>();
+        moveValueX = moveValue.x;
+        moveValueY = moveValue.y;
     }
 }
