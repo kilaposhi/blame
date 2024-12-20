@@ -3528,11 +3528,11 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 15.714888, y: 13.740074, z: 56.885803}
+  m_Size: {x: 100, y: 100, z: 100}
   m_Center: {x: 0.041761503, y: 6.434585, z: -6.291699}
 --- !u!114 &801035819
 MonoBehaviour:
@@ -8576,6 +8576,9 @@ MonoBehaviour:
   generator_object3: {fileID: 538072147}
   generator_object4: {fileID: 439440945}
   generator_object5: {fileID: 251112232}
+  obstacle_01: {fileID: 2891358232357796471, guid: abe9c6a9eeb7d8dc98d7993301ab45d7, type: 3}
+  obstacle_02: {fileID: 4245132037792061491, guid: 48eed3999c385b9b3b58099fe881dc3a, type: 3}
+  obstacle_03: {fileID: 7279174908329950313, guid: 6d8c1d9420c96add7af4b8551c5f77f8, type: 3}
 --- !u!1 &1912104736
 GameObject:
   m_ObjectHideFlags: 0

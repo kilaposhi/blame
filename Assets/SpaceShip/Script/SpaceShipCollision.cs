@@ -18,8 +18,10 @@ public class SpaceShipCollision : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         // Check if the collision is with a wall or obstacle
+        Debug.Log("COLLISION");
         if (other.CompareTag("Obstacle") && canTakeDamage)
         {   
+            Debug.Log("EFFECTIVE DAMAGE");
             TakeDamage();
         }
     }

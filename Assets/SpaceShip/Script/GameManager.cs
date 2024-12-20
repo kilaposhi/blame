@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,8 +17,7 @@ public class GameManager : MonoBehaviour
         audioPlayerShip = GameObject.Find("AudioPlayerShip");
         audioPlayer = audioPlayerShip.GetComponent<AudioPlayer>();
     }
-
-    public void LoseSpaceshipLife()
+    async public void LoseSpaceshipLife()
     {
         spaceshipLife -= 33;
         audioPlayer.PlayDamage();
@@ -32,8 +33,17 @@ public class GameManager : MonoBehaviour
             spaceshipLife = 0;
             Debug.Log("Game Over!");
             Time.timeScale = 0; // Pause the game
+            await Task.Delay(15000);
+            Time.timeScale = 1;
+            ResetScene();
             // TODO Trigger any additional Game Over UI or logic
         }
+    }
+
+    public void ResetScene()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
     }
 
     public int GetSpaceshipLife()

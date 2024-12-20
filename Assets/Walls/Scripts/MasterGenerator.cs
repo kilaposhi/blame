@@ -20,7 +20,13 @@ public class MasterGenerator : MonoBehaviour
     private BoxCollider my_collider; // pour spawner les obstacles à différentes coordonnées
 
     //public float spawn_interval = 3f ; 
-    private float timer = 3f; 
+    private float timer = 3f;
+    private float type = 0f;
+
+     // types de préfabs d'obstacles à spawner
+    public GameObject obstacle_01 ;
+    public GameObject obstacle_02 ;
+    public GameObject obstacle_03 ;
 
     void Start()
     {
@@ -41,8 +47,20 @@ public class MasterGenerator : MonoBehaviour
         if(timer <= 0 && SpeedManager.Instance.CurrentSpeed > 0)
         {
             timer = Random.Range(0.1f, 0.4f);//spawn_interval ; 
-            Vector3 new_coords = new Vector3(Random.Range(colliderMin.x, colliderMax.x), Random.Range(colliderMin.y, colliderMax.y), generator_object1.transform.position.z); 
-            SpawnAll(new_coords);
+            Vector3 new_coords = new Vector3(Random.Range(colliderMin.x, colliderMax.x), Random.Range(colliderMin.y, colliderMax.y), generator_object1.transform.position.z);
+            type = Random.Range(0f, 1f);
+            if(type <= 0.9f)
+            {
+                SpawnAll(new_coords, obstacle_01);
+            }
+            else if(type > 0.9f && type <= 0.99f)
+            {
+                SpawnAll(new_coords, obstacle_02);
+            }
+            else
+            {
+                SpawnAll(new_coords, obstacle_03);
+            }
         }
         else 
         {
@@ -51,12 +69,12 @@ public class MasterGenerator : MonoBehaviour
     }
 
     // call all generators to spawn an object
-    void SpawnAll(Vector3 coords)
+    void SpawnAll(Vector3 coords, GameObject obstacle)
     {
-        gen1.SpawnObstacle(coords);
-        gen2.SpawnObstacle(coords);
-        gen3.SpawnObstacle(coords);
-        gen4.SpawnObstacle(coords);
-        gen5.SpawnObstacle(coords);
+        gen1.SpawnObstacle(coords, obstacle);
+        gen2.SpawnObstacle(coords, obstacle);
+        gen3.SpawnObstacle(coords, obstacle);
+        gen4.SpawnObstacle(coords, obstacle);
+        gen5.SpawnObstacle(coords, obstacle);
     }
 }
